@@ -1,51 +1,68 @@
-# ⚡ SniperDuel-Chair
+# 🌸 SniperDuel-Chair v2
 
-Cheat script for **Sniper Duels** (Roblox) — by LOCKED IN NETWORK.
+Cheat script for **Sniper Duels** (Roblox) — by LOCKED IN NETWORK.  
+Made by **Dora**.
 
 ## Features
 
-| Feature | Key / Control | Description |
-|---------|--------------|-------------|
-| **Menu** | `INSERT` | Toggle settings panel |
-| **Aimbot** | Hold `RMB` | Smooth lock to nearest enemy head |
-| **FOV Circle** | Menu slider | Adjust radius (30–800), toggle visibility |
-| **Rainbow FOV** | Menu toggle | Cycles FOV circle color through rainbow |
-| **Smoothness** | Menu slider | 1 = instant snap, 20 = slow track |
-| **Chams** | Menu toggle | Neon red highlight through walls |
-| **3rd Person** | Menu toggle | Unlock camera to 3rd person (adjustable distance) |
-| **Bunnyhop** | Menu toggle | Auto-jump while holding movement keys |
+### 🎯 Aimbot
+| Feature | Description |
+|---------|-------------|
+| Enable Aimbot | Toggle aimbot on/off |
+| Always-On Aimbot | Lock without holding a key |
+| Smoothness | 1 (instant) → 20 (slow track) |
+| Aimbot Key | RMB, LMB, Q, E, R, F, X, C, V, CapsLock, Alt, Shift |
+| Aim Part | Head / HumanoidRootPart / UpperTorso |
+| FOV Circle | Adjustable radius (30–800), rainbow mode |
+| Triggerbot | Auto-fires when crosshair is on enemy |
+| Silent Aim | Server-side aim redirect via hook |
+| Silent Aim FOV | Separate FOV for silent aim (30–500) |
+| Hit Chance | 1–100% probability per shot |
 
-## How to Use
+### 👁️ Visuals
+| Feature | Description |
+|---------|-------------|
+| Enable Visuals | Master toggle |
+| Boxes | 2D bounding boxes around enemies |
+| Tracers | Lines from screen to enemy (Top/Center/Bottom origin) |
+| Names | Display names above heads |
+| Health Bar | Color-coded health indicator |
+| Chams | Highlight through walls |
+| Rainbow Chams | Cycling hue on chams |
+| Chams Transparency | 0–100% fill opacity |
+| Weapon Chams Transp. | Adjust enemy weapon visibility |
+| Tracer Origin | Top / Center / Bottom of screen |
 
-1. Open your executor (Synapse X, Fluxus, Delta, Wave, etc.)
+### 🏃 Movement
+| Feature | Description |
+|---------|-------------|
+| 3rd Person | Unlock camera (adjustable 4–30 studs) |
+| Bunnyhop | Auto-jump while holding WASD |
+
+### 🌸 UI
+- **3-tab layout**: Aimbot / Visuals / Movement
+- **Draggable** menu window
+- **INSERT** to toggle
+- **Pink neon notification** on inject: *"Success! Made by Dora"*
+
+## Usage
+
+1. Open your executor
 2. Attach to **Sniper Duels**
-3. Copy/paste `main.lua` or use `loadstring`:
+3. Paste or loadstring:
 
 ```lua
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Snip301/SniperDuel-Chair/main/main.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Sniip301/SniperDuel-Chair/main/main.lua"))()
 ```
 
-4. Press **INSERT** to open the menu in-game.
-
-## File Structure
-
-```
-SniperDuel-Chair/
-├── main.lua      -- the cheat script
-└── README.md     -- this file
-```
-
-## Preview
-
-Press `INSERT` in-game to open the draggable settings panel. All features can be toggled and adjusted live.
+4. Press **INSERT** to open menu
 
 ## Cleanup
 
-To unload, run in executor console:
 ```lua
 getgenv().ByteCleanup()
 ```
 
 ---
 
-> **Disclaimer:** For educational and research purposes only.
+> Made by **Dora** 🌸
