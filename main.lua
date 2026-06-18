@@ -9,7 +9,7 @@
       - Custom pink cursor + white trail on menu
       - Pop sound on menu clicks
       - Device spoof rework
-      - Unlock All stub (Sniper Duels)
+
 
     Toggle menu: INSERT
 ]]
@@ -127,9 +127,9 @@ Players.PlayerRemoving:Connect(function() task.defer(refreshPlayerCache) end)
 -- POP SOUND
 --------------------------------------------------------------------
 local popSound = Instance.new("Sound")
-popSound.SoundId = "rbxassetid://6895079853" -- soft pop
-popSound.Volume = 0.3
-popSound.PlaybackSpeed = 1.3
+popSound.SoundId = "rbxassetid://6895079853"
+popSound.Volume = 0.8
+popSound.PlaybackSpeed = 1.2
 popSound.Parent = SoundService
 
 local function playPop()
@@ -447,45 +447,7 @@ do
     info.LayoutOrder=no(pgX); info.Parent=pgX
 end
 
-sep(pgX,"UNLOCK ALL")
-do
-    local ub=Instance.new("TextButton"); ub.Size=UDim2.new(1,0,0,28)
-    ub.BackgroundColor3=Color3.fromRGB(80,30,80); ub.TextColor3=Color3.fromRGB(255,200,255)
-    ub.Font=Enum.Font.GothamBold; ub.TextSize=12; ub.Text="🔓 Attempt Unlock All"
-    ub.BorderSizePixel=0; ub.LayoutOrder=no(pgX); ub.Parent=pgX
-    Instance.new("UICorner",ub).CornerRadius=UDim.new(0,6)
-    ub.MouseButton1Click:Connect(function()
-        playPop()
-        ub.Text = "🔄 Scanning remotes..."
-        task.spawn(function()
-            local found = 0
-            pcall(function()
-                for _, remote in ipairs(game:GetDescendants()) do
-                    if remote:IsA("RemoteEvent") or remote:IsA("RemoteFunction") then
-                        local n = remote.Name:lower()
-                        if n:find("unlock") or n:find("purchase") or n:find("buy")
-                        or n:find("equip") or n:find("reward") or n:find("claim")
-                        or n:find("redeem") or n:find("grant") then
-                            found = found + 1
-                            pcall(function()
-                                if remote:IsA("RemoteEvent") then
-                                    remote:FireServer()
-                                end
-                            end)
-                        end
-                    end
-                end
-            end)
-            ub.Text = "✅ Fired "..found.." remotes"
-            task.wait(3); ub.Text = "🔓 Attempt Unlock All"
-        end)
-    end)
-    local note=Instance.new("TextLabel"); note.Size=UDim2.new(1,0,0,30)
-    note.BackgroundTransparency=1; note.TextColor3=Color3.fromRGB(130,130,130)
-    note.Font=Enum.Font.Gotham; note.TextSize=10; note.TextWrapped=true
-    note.Text="Scans for unlock/purchase/equip remotes and fires them. Results vary per game."
-    note.LayoutOrder=no(pgX); note.Parent=pgX
-end
+
 
 --------------------------------------------------------------------
 -- CHAMS
@@ -616,17 +578,24 @@ end)
 -- CUSTOM CURSOR + TRAIL
 --------------------------------------------------------------------
 local cursorDot, cursorTrail = nil, {}
+local cursorWasHidden = false
 pcall(function()
     cursorDot = Drawing.new("Circle")
-    cursorDot.Visible = false; cursorDot.Radius = 4; cursorDot.Filled = true
-    cursorDot.Color = Color3.fromRGB(255, 80, 180); cursorDot.NumSides = 16
+    cursorDot.Visible = false; cursorDot.Radius = 8; cursorDot.Filled = true
+    cursorDot.Color = Color3.fromRGB(255, 60, 200); cursorDot.NumSides = 24
     cursorDot.Transparency = 0
 
-    for i = 1, 8 do
+    -- outer glow ring
+    cursorDot._glow = Drawing.new("Circle")
+    cursorDot._glow.Visible = false; cursorDot._glow.Radius = 14; cursorDot._glow.Filled = false
+    cursorDot._glow.Color = Color3.fromRGB(255, 100, 220); cursorDot._glow.NumSides = 24
+    cursorDot._glow.Thickness = 1.5; cursorDot._glow.Transparency = 0.4
+
+    for i = 1, 10 do
         local t = Drawing.new("Circle")
-        t.Visible = false; t.Radius = 3 - (i * 0.3); t.Filled = true
-        t.Color = Color3.fromRGB(255, 255, 255); t.NumSides = 12
-        t.Transparency = i * 0.1
+        t.Visible = false; t.Radius = 6 - (i * 0.4); t.Filled = true
+        t.Color = Color3.fromRGB(255, 255, 255); t.NumSides = 16
+        t.Transparency = i * 0.08
         cursorTrail[i] = {circle = t, pos = Vector2.new(0,0)}
     end
 end)
@@ -824,15 +793,24 @@ RunService.RenderStepped:Connect(function(dt)
     if SaC then SaC.Position=sc;SaC.Radius=C.SilentAimFOV;SaC.Visible=C.SilentAimEnabled and C.FOVEnabled end
     if AaC then AaC.Position=sc;AaC.Radius=C.AimAssistFOV;AaC.Visible=C.AimAssistEnabled and C.FOVEnabled end
 
-    -- Custom cursor
+    -- Custom cursor + hide system cursor when menu open
     if cursorDot then
         local show = C.MenuOpen and Fr.Visible
         local mp = UserInputService:GetMouseLocation()
         cursorDot.Visible = show; cursorDot.Position = mp
+        if cursorDot._glow then cursorDot._glow.Visible = show; cursorDot._glow.Position = mp end
         for i, t in ipairs(cursorTrail) do
             t.circle.Visible = show
-            t.pos = t.pos:Lerp(mp, 0.3 - i*0.02)
+            t.pos = t.pos:Lerp(mp, 0.5 - i*0.03)
             t.circle.Position = t.pos
+        end
+        -- hide/show system cursor
+        if show and not cursorWasHidden then
+            UserInputService.MouseIconEnabled = false
+            cursorWasHidden = true
+        elseif not show and cursorWasHidden then
+            UserInputService.MouseIconEnabled = true
+            cursorWasHidden = false
         end
     end
 
