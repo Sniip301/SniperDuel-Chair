@@ -1,6 +1,6 @@
 # 🌸 SniperDuel-Chair v2
 
-Cheat script for **Sniper Duels** (Roblox) — by LOCKED IN NETWORK.  
+Cheat script for **Sniper Duels** (Roblox)  
 Made by **Dora**.
 
 ## Features
